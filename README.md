@@ -116,10 +116,6 @@ make
 - Sauvegarder les passphrases de manière sécurisée
 - Vérifier l'intégrité des fichiers après déchiffrement
 
-### Limitations connues
-- Les performances peuvent varier selon le nombre d'itérations PBKDF2
-- La taille des fichiers est limitée par la mémoire disponible
-
 ## Maintenance et support
 
 ### Journal des versions
@@ -130,9 +126,3 @@ make
 - Mode de traitement par blocs pour les gros fichiers
 - Interface en ligne de commande améliorée
 - Support multi-plateforme testé
-
-### Contact
-Pour toute question technique ou rapport de bug, veuillez créer une issue dans le dépôt du projet.
-
-## Licence
-Ce projet est distribué sous licence [À DÉFINIR]. Voir le fichier LICENSE pour plus de détails.# AES_encryption
