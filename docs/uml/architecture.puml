@@ -1,0 +1,79 @@
+@startuml AES-256-GCM Encryptor
+
+' Style et thème
+skinparam componentStyle uml2
+skinparam packageStyle rectangle
+skinparam monochrome true
+
+' Composants principaux
+package "Interface Utilisateur" {
+    [GUI (Qt)] as gui
+    [CLI] as cli
+    interface "IUserInterface" as iui
+}
+
+package "Cryptographie" {
+    [CryptoEngine] as engine
+    interface "ICryptoOperations" as ico
+    [KeyManager] as keymanager
+    [FileHandler] as filehandler
+}
+
+package "OpenSSL" {
+    [AES-GCM] as aes
+    [PBKDF2] as pbkdf2
+}
+
+' Relations
+gui -up-> iui
+cli -up-> iui
+iui --> ico
+ico <|.. engine
+engine --> keymanager
+engine --> filehandler
+engine --> aes
+keymanager --> pbkdf2
+
+' Classes détaillées
+class "CryptoEngine" as Engine {
+    +encrypt_file(input: string, output: string, password: string): int
+    +decrypt_file(input: string, output: string, password: string): int
+    -validate_input(input: string): bool
+    -process_file(input: string, output: string): int
+}
+
+class "KeyManager" as KeyMgr {
+    +generate_key(password: string, salt: byte[]): byte[]
+    +derive_key(password: string, salt: byte[]): byte[]
+    -clear_sensitive_data(data: byte[]): void
+}
+
+class "FileHandler" as FileHdl {
+    +read_file(path: string): byte[]
+    +write_file(path: string, data: byte[]): bool
+    +validate_file(path: string): bool
+    -check_permissions(path: string): bool
+}
+
+class "GUI" as GuiClass {
+    +show_file_dialog(): string
+    +handle_encryption(): void
+    +handle_decryption(): void
+    -validate_password(password: string): bool
+    -update_progress(progress: int): void
+}
+
+class "CLI" as CliClass {
+    +parse_arguments(argc: int, argv: char**): int
+    +execute_command(): int
+    -validate_args(): bool
+    -show_help(): void
+}
+
+' Relations détaillées
+Engine --> KeyMgr
+Engine --> FileHdl
+GuiClass --> Engine
+CliClass --> Engine
+
+@enduml
